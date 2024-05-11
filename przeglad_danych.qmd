@@ -29,3 +29,35 @@ partycje <- st_read('map_partitions.shp')
   tm_polygons(col='mncplty_c') # podanie zmiennnych
 ```
 
+```{r}
+daneSzczep <- dane %>% select(c(1,2,4)) %>% rename(mncplty_c=1, Gmina=2, ProcZaszczepionych=3) %>% mutate(ProcZaszczepionych=as.numeric(ProcZaszczepionych, na.rm = TRUE)) #TRZEBA COŚ ZROBIĆ Z PUSTYMI WARTOŚCIAMI
+class(dane$ProcZaszczepionych)
+```
+
+
+```{r}
+gm_razem <- left_join(gminy,daneSzczep)
+head(gm_razem)
+```
+
+
+
+```{r}
+tm_shape(gm_razem) +
+  tm_polygons(col='ProcZaszczepionych', title = "Szczepienia", palette = "YlGnBu", style = "kmeans", n = 8) +
+  tm_layout(legend.format = list(text.separator = '-'), legend.position = c("left", "bottom"))
+          
+```
+
+```{r}
+# 1. Czy wielkość gmin/miast ma znaczenie?
+wielkosc <- dane
+wielkosc <- wielkosc %>% select(c(1,2,4,5,59,60)) %>% rename(mncplty_c=1, Nazwa=2, ProcZaszczep=3, Populacja=4, Powierzchnia=5, Zaludnienie=6)
+wielkosc
+```
+
+```{r}
+#plot(x=wielkosc$ProcZaszczep, y=wielkosc$Populacja)
+
+```
+
