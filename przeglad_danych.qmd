@@ -7,6 +7,10 @@ library(tmap) #dedykowany do danych przestrzennych wzorowany na ggplot
 library(tmaptools)
 library(rvest)
 library(stringr)
+library(ggthemes)
+library(ggcorrplot)
+library(ggplot2)
+library(ggpubr)
 ```
 
 ```{r}
@@ -15,7 +19,7 @@ head(kraje)
 ```
 
 ```{r}
-dane <- read.table(file = 'data_municipalities.csv', sep=',')
+dane <- read.table(file = 'data_municipalities.csv', sep=',',  header = TRUE)
 head(dane)
 ```
 
@@ -70,16 +74,66 @@ model
 summary(model)
 summary(model)$r.squared
 ```
-
 ```{r}
+
+model3 <- lm(ProcZaszczep~ Populacja + Powierzchnia, data = wielkosc)
+summary(model3)
+```
+
 y <- wielkosc$ProcZaszczep
 x <- wielkosc$Powierzchnia
 model_potegowy <- nls(y ~ a * x^b, data = data.frame(x = x, y = y), start = list(a = 1, b = 1))
-summary(model_potegowy)
-```
+#summary(model_potegowy)
+SST <- sum((y - mean(y))^2)
+SSR <- sum(residuals(model_potegowy)^2)
+rsquared <- 1 - SSR / SST
+
+# Wyświetlenie współczynnika determinacji
+print(rsquared)
+
+# Usunięcie obserwacji z brakami danych
+wielkosc <- data.frame(x = x, y = y)
+wielkosc <- wielkosc[complete.cases(wielkosc), ]
+
+# Model potęgowy
+modelp <- nls(y ~ a * x^b, data = wielkosc, start = list(a = 1, b = 1))
+
+# Obliczanie współczynnika determinacji
+SST <- sum((wielkosc$y - mean(wielkosc$y))^2)
+SSR <- sum(residuals(modelp)^2)
+rsquared <- 1 - SSR / SST
+
+# Wyświetlenie współczynnika determinacji
+print(rsquared)
+
+
 
 ```{r}
-#ALSLS
-
+plot(x=dane$population_per_pharmacy
+     , y=dane$percent_vaccinated)
 ```
+```{r}
+kolumny_numeryczne <- sapply(dane, is.numeric)
+naglowki <- names(dane)[kolumny_numeryczne]
+naglowki <- naglowki[!grepl("^population", naglowki)]
+
+naglowki
+```
+
+
+
+```{r}
+mackor <-
+  dane %>% select(naglowki) %>% 
+  cor(use='everything' ,method = 'pearson') %>% round(2)
+
+mackor_filtr <- mackor
+mackor_filtr[abs(mackor_filtr) <= 0.3] <- NA
+
+ggcorrplot(mackor_filtr,
+           lab = TRUE,
+           method = 'circle',
+           ggtheme = theme_bw())
+```
+
 
