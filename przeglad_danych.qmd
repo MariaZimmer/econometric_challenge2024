@@ -58,6 +58,10 @@ wielkosc
 
 ```{r}
 #plot(x=wielkosc$ProcZaszczep, y=wielkosc$Populacja)
+model <- lm(,data = wielkosc)
+
+
+#plot
 
 ```
 
