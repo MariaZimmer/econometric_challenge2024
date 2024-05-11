@@ -1,0 +1,31 @@
+
+```{r}
+library(readxl)
+library(dplyr)
+library(sf) #pliki shp do wykresów mapowych (ShapeFile)
+library(tmap) #dedykowany do danych przestrzennych wzorowany na ggplot
+library(tmaptools)
+library(rvest)
+library(stringr)
+```
+
+```{r}
+kraje <- read.table(file = 'data_counties.csv',  sep=",")
+head(kraje)
+```
+
+```{r}
+dane <- read.table(file = 'data_municipalities.csv', sep=',')
+head(dane)
+```
+
+```{r}
+gminy <- st_read('map_municipalities.shp') 
+partycje <- st_read('map_partitions.shp') 
+```
+
+```{r}
+ tm_shape(gminy)+ #podanie gdzie się znajdują dane analogia do ggplot
+  tm_polygons(col='mncplty_c') # podanie zmiennnych
+```
+
