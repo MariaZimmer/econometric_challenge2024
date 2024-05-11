@@ -57,7 +57,29 @@ wielkosc
 ```
 
 ```{r}
-#plot(x=wielkosc$ProcZaszczep, y=wielkosc$Populacja)
+plot(y=wielkosc$ProcZaszczep, x=wielkosc$Powierzchnia)
+
+wielkosc <- wielkosc %>%
+  mutate_at(vars(mncplty_c, ProcZaszczep, Populacja, Powierzchnia, Zaludnienie), as.numeric)
+
+wielkosc
+
+model <- lm(ProcZaszczep~Powierzchnia, data=wielkosc)
+model
+
+summary(model)
+summary(model)$r.squared
+```
+
+```{r}
+y <- wielkosc$ProcZaszczep
+x <- wielkosc$Powierzchnia
+model_potegowy <- nls(y ~ a * x^b, data = data.frame(x = x, y = y), start = list(a = 1, b = 1))
+summary(model_potegowy)
+```
+
+```{r}
+#ALSLS
 
 ```
 
