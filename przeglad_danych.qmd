@@ -34,7 +34,8 @@ partycje <- st_read('map_partitions.shp')
 ```
 
 ```{r}
-daneSzczep <- dane %>% select(c(1,2,4)) %>% rename(mncplty_c=1, Gmina=2, ProcZaszczepionych=3) %>% mutate(ProcZaszczepionych=as.numeric(ProcZaszczepionych, na.rm = TRUE)) #TRZEBA COŚ ZROBIĆ Z PUSTYMI WARTOŚCIAMI
+daneSzczep <- dane %>% select(c(1,2,4)) %>% rename(mncplty_c=1, Gmina=2, ProcZaszczepionych=3) %>% mutate(ProcZaszczepionych=as.numeric(ProcZaszczepionych, na.rm = TRUE)) %>% 
+mutate(mncplty_c=as.character(mncplty_c, na.rm = TRUE))
 class(dane$ProcZaszczepionych)
 ```
 
