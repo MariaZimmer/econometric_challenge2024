@@ -8,7 +8,7 @@ library(tmaptools)
 library(rvest)
 library(stringr)
 library(rpart)
-#library(party)
+library(party)
 ```
 
 ```{r}
@@ -65,9 +65,9 @@ wielkosc
 ```
 
 ```{r}
-#drzewo <- ctree(Nazwa~., data=wielkosc, 
-#                controls = ctree_control(maxdepth=3))
-#plot(drzewo)
+drzewo <- ctree(Nazwa~., data=wielkosc, 
+                controls = ctree_control(maxdepth=3))
+plot(drzewo)
 ```
 
 ```{r}
