@@ -7,6 +7,8 @@ library(tmap) #dedykowany do danych przestrzennych wzorowany na ggplot
 library(tmaptools)
 library(rvest)
 library(stringr)
+library(rpart)
+#library(party)
 ```
 
 ```{r}
@@ -58,10 +60,18 @@ wielkosc
 
 ```{r}
 #plot(x=wielkosc$ProcZaszczep, y=wielkosc$Populacja)
-model <- lm(,data = wielkosc)
+#model <- lm(,data = wielkosc)
 
+```
 
-#plot
+```{r}
+#drzewo <- ctree(Nazwa~., data=wielkosc, 
+#                controls = ctree_control(maxdepth=3))
+#plot(drzewo)
+```
 
+```{r}
+#drzewo <- rpart(V2~.,data=kraje, maxdepth=3)
+#rpart.plot(drzewo)
 ```
 
