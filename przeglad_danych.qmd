@@ -13,10 +13,12 @@ library(ggplot2)
 library(ggpubr)
 ```
 
+
 ```{r}
 kraje <- read.table(file = 'data_counties.csv',  sep=",")
 head(kraje)
 ```
+
 
 ```{r}
 dane <- read.table(file = 'data_municipalities.csv', sep=',',  header = TRUE)
@@ -28,15 +30,17 @@ gminy <- st_read('map_municipalities.shp')
 partycje <- st_read('map_partitions.shp') 
 ```
 
+
 ```{r}
  tm_shape(gminy)+ #podanie gdzie się znajdują dane analogia do ggplot
   tm_polygons(col='mncplty_c') # podanie zmiennnych
 ```
 
+
 ```{r}
-daneSzczep <- dane %>% select(c(1,2,4)) %>% rename(mncplty_c=1, Gmina=2, ProcZaszczepionych=3) %>% mutate(ProcZaszczepionych=as.numeric(ProcZaszczepionych, na.rm = TRUE)) %>% 
-mutate(mncplty_c=as.character(mncplty_c, na.rm = TRUE))
-class(dane$ProcZaszczepionych)
+daneSzczep <- dane %>% select(c(1,2,4)) %>% rename(mncplty_c=1, mncplty_n=2, ProcZaszczepionych=3) %>% mutate(ProcZaszczepionych=as.numeric(ProcZaszczepionych)) %>% 
+mutate(mncplty_c=as.character(mncplty_c))
+head(daneSzczep)
 ```
 
 
@@ -44,7 +48,6 @@ class(dane$ProcZaszczepionych)
 gm_razem <- left_join(gminy,daneSzczep)
 head(gm_razem)
 ```
-
 
 
 ```{r}
@@ -113,6 +116,7 @@ print(rsquared)
 plot(x=dane$population_per_pharmacy
      , y=dane$percent_vaccinated)
 ```
+
 ```{r}
 kolumny_numeryczne <- sapply(dane, is.numeric)
 naglowki <- names(dane)[kolumny_numeryczne]
@@ -120,7 +124,6 @@ naglowki <- naglowki[!grepl("^population", naglowki)]
 
 naglowki
 ```
-
 
 
 ```{r}
@@ -136,5 +139,7 @@ ggcorrplot(mackor_filtr,
            method = 'circle',
            ggtheme = theme_bw())
 ```
+
+
 
 
