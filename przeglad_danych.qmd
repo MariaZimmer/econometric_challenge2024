@@ -17,7 +17,7 @@ head(kraje)
 ```
 
 ```{r}
-dane <- read.table(file = 'data_municipalities.csv', sep=',')
+dane <- read.table(file = 'data_municipalities.csv', sep=',', header = TRUE)
 head(dane)
 ```
 
@@ -64,14 +64,28 @@ wielkosc
 
 ```
 
+
 ```{r}
-drzewo <- ctree(Nazwa~., data=wielkosc, 
+kolumny_numeryczne <- sapply(dane, is.numeric)
+naglowki_numeryczne <- names(dane)[kolumny_numeryczne]
+naglowki_bez_populacji <- naglowki[!grepl("^population", naglowki)]
+naglowki <- names(dane)
+
+naglowki
+kolumny_numeryczne
+
+dane_numeryczne <- dane %>% select(naglowki_numeryczne)
+```
+
+
+```{r}
+drzewo <- ctree(municipality_code~., data=dane_numeryczne, 
                 controls = ctree_control(maxdepth=3))
 plot(drzewo)
 ```
 
 ```{r}
-#drzewo <- rpart(V2~.,data=kraje, maxdepth=3)
+#drzewo <- rpart(municipality_name~.,data=dane, maxdepth=3)
 #rpart.plot(drzewo)
 ```
 
